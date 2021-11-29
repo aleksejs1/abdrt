@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Access;
 use App\Entity\Person;
 use App\Form\PersonType;
+use App\Security\Voter\PersonVoter;
 use App\Service\PersonService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -56,6 +57,8 @@ class PersonController extends AbstractController
      */
     public function show(Person $person): Response
     {
+        $this->denyAccessUnlessGranted(PersonVoter::PERSON, $person);
+
         return $this->render('person/show.html.twig', [
             'person' => $person,
         ]);
@@ -66,6 +69,8 @@ class PersonController extends AbstractController
      */
     public function edit(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted(PersonVoter::PERSON, $person);
+
         $form = $this->createForm(PersonType::class, $person);
         $form->handleRequest($request);
 
@@ -86,6 +91,8 @@ class PersonController extends AbstractController
      */
     public function delete(Request $request, Person $person, EntityManagerInterface $entityManager): Response
     {
+        $this->denyAccessUnlessGranted(PersonVoter::PERSON, $person);
+
         if ($this->isCsrfTokenValid('delete'.$person->getId(), $request->request->get('_token'))) {
             $entityManager->remove($person);
             $entityManager->flush();

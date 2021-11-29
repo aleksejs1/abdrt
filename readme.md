@@ -8,15 +8,15 @@
     cd abdrt
     ```
 
-2. Install dependencies
-    ```
-    composer install
-    ```
-
-3. Configure config file
+2. Configure config file
     ```
     cp .env .env.local
     vi .env.local
+    ```
+
+3. Install dependencies
+    ```
+    composer install
     ```
 
 4. Run database migrations
