@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Access;
+use App\Entity\Group;
 use App\Entity\Person;
 use App\Form\PersonType;
 use App\Security\Voter\PersonVoter;
@@ -25,6 +26,7 @@ class PersonController extends AbstractController
     {
         return $this->render('person/index.html.twig', [
             'people' => $personService->getBirthdaySortedList($this->getUser()),
+            'user' => $this->getUser(),
         ]);
     }
 

@@ -3,6 +3,8 @@
 {% block title %}Person index{% endblock %}
 
 {% block body %}
+    <a href="{{ path('group_index') }}">Groups</a>
+
     <h1>Person index</h1>
 
     <table class="table">
@@ -25,6 +27,31 @@
                 <td>
                     <a href="{{ path('person_show', {'id': person.id}) }}">show</a>
                     <a href="{{ path('person_edit', {'id': person.id}) }}">edit</a>
+                    (Groups:
+                    {% for group in  user.groups %}
+                        {% set found = false %}
+                        {% for access in  person.accesses %}
+                            {% if access.accessGroup %}
+{#                                {{ access.accessGroup.name }} <a href="{{ path('group_remove_person', {'group': access.accessGroup.id, 'person': person.id}) }}">(x)</a>#}
+                                {% if access.accessGroup.id == group.id %}
+                                    {% set found = true %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {% if found %}
+                            <u>{{ group.name }}</u> <a href="{{ path('group_remove_person', {'group': group.id, 'person': person.id}) }}">(x)</a>
+                        {% else %}
+                            {{ group.name }} <a href="{{ path('group_add_person', {'group': group.id, 'person': person.id}) }}">(+)</a>
+                        {% endif %}
+                    {% endfor %}
+                    )
+{#                    (Groups:#}
+{#                    {% for access in  person.accesses %}#}
+{#                        {% if access.accessGroup %}#}
+{#                            {{ access.accessGroup.name }} <a href="{{ path('group_remove_person', {'group': access.accessGroup.id, 'person': person.id}) }}">(x)</a>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                    )#}
                 </td>
             </tr>
         {% else %}

@@ -43,6 +43,6 @@ class PersonRepository extends ServiceEntityRepository
             ->getResult()
         ;
 
-        return array_merge($personal, $group);
+        return array_unique(array_merge($personal, $group));
     }
 }
